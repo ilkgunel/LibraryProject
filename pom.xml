@@ -5,7 +5,7 @@
     <groupId>com.ilkaygunel</groupId>
     <artifactId>LibraryProject</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>LibraryProject</name>
     <parent>
         <groupId>org.springframework.boot</groupId>

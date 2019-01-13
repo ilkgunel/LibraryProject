@@ -1,1 +1,1 @@
-web
+web: java -jar target/LibraryProject-1.0.0.jar
