@@ -1,8 +1,19 @@
 package com.ilkaygunel.request;
 
-public class AddBookRequest {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
+public class AddBookRequest implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @NotNull(message = "Book Name Field Can't Be Empty")
+    @Size(min = 2,message = "Book Name Can't Be Less Than 2 Characters")
     private String bookName;
+
+    @NotNull(message = "Author Name Field Can't Be Empty")
+    @Size(min = 2,message = "Author Name Can't Be Less Than 2 Characters")
     private String authorName;
 
     public String getBookName() {

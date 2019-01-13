@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ilkaygunel.entities.Book;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class LibraryWebService {
     private BookService bookService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Book> addNewBookToLibrary(@RequestBody AddBookRequest addBookRequest) {
+    public ResponseEntity<Book> addNewBookToLibrary(@Valid @RequestBody AddBookRequest addBookRequest) {
         Book book = bookService.addBook(addBookRequest);
         return ResponseEntity.ok(book);
     }

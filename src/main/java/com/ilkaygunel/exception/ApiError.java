@@ -1,34 +1,52 @@
 package com.ilkaygunel.exception;
 
+import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
+
 public class ApiError {
-    private String timestamp;
-    private String status;
-    private String error;
+    private LocalDateTime timestamp;
+    private HttpStatus status;
     private String message;
-    private String path;
+    private String debugMessage;
 
-    public String getTimestamp() {
-        return timestamp;
+    private ApiError() {
+        timestamp = LocalDateTime.now();
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
+    ApiError(HttpStatus status) {
+        this();
         this.status = status;
     }
 
-    public String getError() {
-        return error;
+    ApiError(HttpStatus status, Throwable ex) {
+        this();
+        this.status = status;
+        this.message = "Unexpected error";
+        this.debugMessage = ex.getLocalizedMessage();
     }
 
-    public void setError(String error) {
-        this.error = error;
+    ApiError(HttpStatus status, String message, Throwable ex) {
+        this();
+        this.status = status;
+        this.message = message;
+        this.debugMessage = ex.getLocalizedMessage();
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
     public String getMessage() {
@@ -39,11 +57,11 @@ public class ApiError {
         this.message = message;
     }
 
-    public String getPath() {
-        return path;
+    public String getDebugMessage() {
+        return debugMessage;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setDebugMessage(String debugMessage) {
+        this.debugMessage = debugMessage;
     }
 }
