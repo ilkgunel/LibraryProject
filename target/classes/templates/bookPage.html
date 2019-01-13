@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Library Project With Spring Boot And Thymelaf</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Kitap ID Bilgisi</th>
+        <th>Kitap İsmi</th>
+        <th>Aksiyon</th>
+        <th>Aksiyon</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${books.empty}">
+        <td colspan="2"> Kayıtlı Kitap Bulunamadı</td>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.id}"></span></td>
+        <td><span th:text="${book.bookName}"></span></td>
+        <td>
+            <form th:action="@{'/deleteBook/'+${book.id}}" th:object="${book}" method="post">
+                <!--<input type="hidden" th:field="${book}">Delete</input>-->
+                <button type="submit" onClick="return confirm('Kitap Silinecek. Emin misiniz?')">Sil</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{'/updateBookPage/'+${book.id}}" th:object="${book}" method="post">
+                <button type="submit">Güncelle</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/saveBookPage}">Kitap Kaydı İçin Buraya Tıklayınız</a>
+
+</body>
+</html>
