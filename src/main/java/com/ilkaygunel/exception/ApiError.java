@@ -3,12 +3,15 @@ package com.ilkaygunel.exception;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ApiError {
     private LocalDateTime timestamp;
     private HttpStatus status;
     private String message;
     private String debugMessage;
+    private List<ApiSubError> subErrors;
+
 
     private ApiError() {
         timestamp = LocalDateTime.now();
@@ -63,5 +66,13 @@ public class ApiError {
 
     public void setDebugMessage(String debugMessage) {
         this.debugMessage = debugMessage;
+    }
+
+    public List<ApiSubError> getSubErrors() {
+        return subErrors;
+    }
+
+    public void setSubErrors(List<ApiSubError> subErrors) {
+        this.subErrors = subErrors;
     }
 }

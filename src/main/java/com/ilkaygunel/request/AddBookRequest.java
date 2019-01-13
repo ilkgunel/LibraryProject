@@ -13,7 +13,7 @@ public class AddBookRequest implements Serializable {
     private String bookName;
 
     @NotNull(message = "Author Name Field Can't Be Empty")
-    @Size(min = 2,message = "Author Name Can't Be Less Than 2 Characters")
+    @Size(min = 4,message = "Author Name Can't Be Less Than 4 Characters")
     private String authorName;
 
     public String getBookName() {
