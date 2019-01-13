@@ -25,7 +25,7 @@ public class LibraryWebService {
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public ResponseEntity<List<Book>> getAllBooks(){
+    public ResponseEntity<List<Book>> getAllBooks() throws Exception{
         List<Book> allBooks = bookService.findAllBooks();
         return ResponseEntity.ok(allBooks);
     }

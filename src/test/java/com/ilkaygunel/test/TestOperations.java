@@ -6,11 +6,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.ilkaygunel.application.Application;
 import com.ilkaygunel.entities.Book;
+import com.ilkaygunel.facade.BookFacade;
 import com.ilkaygunel.request.AddBookRequest;
 import com.ilkaygunel.request.UpdateBookRequest;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +24,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 import org.thymeleaf.util.StringUtils;
 
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.is;
@@ -32,6 +37,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestOperations {
     public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
@@ -43,20 +49,25 @@ public class TestOperations {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private BookFacade bookFacade;
+
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void findAllRecordsAndCheck() throws Exception {
+    //findAllRecordsAndCheck
+    public void test1() throws Exception {
         mockMvc.perform(get("/library/list"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8));
     }
 
     @Test
-    public void testAddingNewRecord() throws Exception {
+    //testAddingNewRecord
+    public void test2() throws Exception {
         //Find max id in data base
         Gson gson = new GsonBuilder().create();
         long maxId=0l;
@@ -77,6 +88,7 @@ public class TestOperations {
         //Add new record and test it
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookName("Gurur Ve Önyargı");
+        addBookRequest.setAuthorName("Jane Austen");
 
         int intOfMaxId = Math.toIntExact(maxId);
 
@@ -89,13 +101,16 @@ public class TestOperations {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 //.andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("id", is(intOfMaxId+1)))
-                .andExpect(jsonPath("bookName", is("Gurur Ve Önyargı")));
+                .andExpect(jsonPath("bookName", is("Gurur Ve Önyargı")))
+                .andExpect(jsonPath("authorName",is("Jane Austen")));
     }
 
     @Test
-    public void testSingleGet() throws Exception {
+    //testSingleGet
+    public void test3() throws Exception {
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookName("Hobbit");
+        addBookRequest.setAuthorName("J.R.R. Tolkien");
 
         Gson gson = new GsonBuilder().create();
 
@@ -117,11 +132,13 @@ public class TestOperations {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("id",is(intOfBookId)))
-                .andExpect(jsonPath("bookName", is("Hobbit")));
+                .andExpect(jsonPath("bookName", is("Hobbit")))
+                .andExpect(jsonPath("authorName",is("J.R.R. Tolkien")));
     }
 
     @Test
-    public void testUpdate() throws Exception{
+    //testUpdate
+    public void test4() throws Exception{
         //Find max id in data base
         Gson gson = new GsonBuilder().create();
         long maxId=0l;
@@ -139,12 +156,12 @@ public class TestOperations {
             }
         }
 
+        int intOfMaxId = Math.toIntExact(maxId);
+
         //Add new record and test it
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookName("Yüzüklerin Efendisi");
-
-        int intOfMaxId = Math.toIntExact(maxId);
-
+        addBookRequest.setAuthorName("J.R.R. Tolkien");
 
         MvcResult addNewBookMvcResult = mockMvc.perform(post("/library/add").
                 contentType(MediaType.APPLICATION_JSON).
@@ -152,9 +169,10 @@ public class TestOperations {
                 accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                //.andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("id", is(intOfMaxId+1)))
-                .andExpect(jsonPath("bookName", is("Yüzüklerin Efendisi"))).andReturn();
+                .andExpect(jsonPath("bookName", is("Yüzüklerin Efendisi")))
+                .andExpect(jsonPath("authorName",is("J.R.R. Tolkien")))
+                .andReturn();
 
         //Update it
         String addNewBookResultContent = addNewBookMvcResult.getResponse().getContentAsString();
@@ -162,6 +180,7 @@ public class TestOperations {
         UpdateBookRequest updateBookRequest = new UpdateBookRequest();
         updateBookRequest.setId(book.getId());
         updateBookRequest.setBookName(book.getBookName()+" Changed");
+        updateBookRequest.setAuthorName(book.getAuthorName()+" Changed");
         int intOfAddedBook = Math.toIntExact(book.getId());
 
         mockMvc.perform(put("/library/update").
@@ -172,12 +191,14 @@ public class TestOperations {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 //.andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("id", is(intOfAddedBook)))
-                .andExpect(jsonPath("bookName", is(updateBookRequest.getBookName())));
+                .andExpect(jsonPath("bookName", is(updateBookRequest.getBookName())))
+                .andExpect(jsonPath("authorName",is(book.getAuthorName()+" Changed")));
 
     }
 
     @Test
-    public void testDelete() throws Exception{
+    //testDelete
+    public void test5() throws Exception{
         //Find max id in data base
         Gson gson = new GsonBuilder().create();
         long maxId=0l;
@@ -198,6 +219,7 @@ public class TestOperations {
         //Add new record and test it
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setBookName("Beşinci Kurban");
+        addBookRequest.setAuthorName("Jane Casey");
 
         int intOfMaxId = Math.toIntExact(maxId);
 
@@ -210,7 +232,9 @@ public class TestOperations {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 //.andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("id", is(intOfMaxId+1)))
-                .andExpect(jsonPath("bookName", is("Beşinci Kurban"))).andReturn();
+                .andExpect(jsonPath("bookName", is(addBookRequest.getBookName())))
+                .andExpect(jsonPath("authorName",is(addBookRequest.getAuthorName())))
+                .andReturn();
 
         //Delete it
         String addNewBookResultContent = addNewBookMvcResult.getResponse().getContentAsString();

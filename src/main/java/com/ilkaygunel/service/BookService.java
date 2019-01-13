@@ -29,6 +29,8 @@ public class BookService extends BaseService {
 
     public List<Book> findAllBooks() throws Exception{
         List<Book> bookList = bookFacade.findListByNamedQuery("Book.findAll");
+        if (bookList == null || bookList.size() < 1)
+            throw new ResourceNotFoundException("Any record couldn't find in databse");
         return bookList;
     }
 
