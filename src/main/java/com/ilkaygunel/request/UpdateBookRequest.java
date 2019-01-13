@@ -1,9 +1,19 @@
 package com.ilkaygunel.request;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UpdateBookRequest {
 
+    @NotNull(message = "Id Field Can't Be Empty To Update Book")
     private long id;
+
+    @NotNull(message = "Book Name Field Can't Be Empty")
+    @Size(min = 2,message = "Book Name Can't Be Less Than 2 Characters")
     private String bookName;
+
+    @NotNull(message = "Author Name Field Can't Be Empty")
+    @Size(min = 4,message = "Author Name Can't Be Less Than 4 Characters")
     private String authorName;
 
     public long getId() {

@@ -27,13 +27,8 @@ public class BookService extends BaseService {
         return bookFacade.find(longId);
     }
 
-    public List<Book> findAllBooks() {
-        List<Book> bookList = null;
-        try {
-            bookList = bookFacade.findListByNamedQuery("Book.findAll");
-        } catch (Exception e) {
-            //TODO implement here later
-        }
+    public List<Book> findAllBooks() throws Exception{
+        List<Book> bookList = bookFacade.findListByNamedQuery("Book.findAll");
         return bookList;
     }
 
@@ -48,7 +43,8 @@ public class BookService extends BaseService {
     public void deleteBook(String bookId){
         long longBookId = Long.parseLong(bookId);
         Book book = bookFacade.find(longBookId);
-        //TODO kitap bulunamazsa hata fırlatılacak
+        if(book == null)
+            throw new ResourceNotFoundException("Any record couldn't find with this id:"+bookId);
         bookFacade.delete(book);
     }
 }
