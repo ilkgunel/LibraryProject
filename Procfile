@@ -1,1 +1,1 @@
-web: java -jar target/LibraryProject-1.0.0.jar
+web: java -jar -Dserver.port=$PORT target/LibraryProject-1.0.0.jar
