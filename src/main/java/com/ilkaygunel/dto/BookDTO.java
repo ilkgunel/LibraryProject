@@ -4,6 +4,7 @@ public class BookDTO {
 
     private int id;
     private String bookName;
+    private String authorName;
 
     public BookDTO() {
 
@@ -28,5 +29,13 @@ public class BookDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

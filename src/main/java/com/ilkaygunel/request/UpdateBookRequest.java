@@ -4,6 +4,7 @@ public class UpdateBookRequest {
 
     private long id;
     private String bookName;
+    private String authorName;
 
     public long getId() {
         return id;
@@ -19,5 +20,13 @@ public class UpdateBookRequest {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

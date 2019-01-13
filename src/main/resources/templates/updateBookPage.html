@@ -12,6 +12,7 @@
                 <tr>
                     <th>Kitap ID Bilgisi</th>
                     <th>Kitap İsmi</th>
+                    <th>Kitabın Yazarı</th>
                     <th>Aksiyon</th>
                 </tr>
             </thead>
@@ -19,6 +20,7 @@
             <tr>
                 <td><input type="text" th:field="*{id}" value="${bookForUpdate.id}" disabled/></td>
                 <td><input type="text" th:field="*{bookName}" value="${bookForUpdate.bookName}"/></td>
+                <td><input type="text" th:field="*{authorName}" value="${bookForUpdate.authorName}"/></td>
                 <td><input type="submit" value="Kaydet"/></td>
             </tr>
             </tbody>

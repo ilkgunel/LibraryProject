@@ -7,12 +7,24 @@
 </head>
 <body>
 <form action="#" th:action="@{/saveBook}" th:object="${bookDTO}" method="post">
-    <p>Kaydedilecek Kitabın İsmini Giriniz</p>
-    <input type="text" th:field="*{bookName}"/>
-    <p>
-        <input type="submit" value="Kaydet"/>
-        <input type="reset" value="Sıfırla"/>
-    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Kitap İsmi</th>
+                <th>Kitabın Yazarı</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" th:field="*{bookName}"/></td>
+                <td><input type="text" th:field="*{authorName}"/></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <input type="submit" value="Kaydet"/>
+    <input type="reset" value="Sıfırla"/>
 </form>
 </body>
 </html>

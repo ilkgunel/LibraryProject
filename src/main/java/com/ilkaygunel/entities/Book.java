@@ -19,6 +19,11 @@ public class Book {
     @Size(min = 2,message = "Book Name Can't Be Less Than 2 Characters")
     private String bookName;
 
+    @Column
+    @NotNull(message = "Author Name Field Can't Be Empty")
+    @Size(min = 2,message = "Author Name Can't Be Less Than 2 Characters")
+    private String authorName;
+
     public long getId() {
         return id;
     }
@@ -35,8 +40,16 @@ public class Book {
         this.bookName = bookName;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
     @Override
     public String toString() {
-        return String.format("Book [id=%d, bookName='%s']", id, bookName);
+        return String.format("Book [id=%d, bookName='%s', writerName='%s']", id, bookName, authorName);
     }
 }

@@ -14,6 +14,7 @@ public class BookService extends BaseService {
     public Book addBook(AddBookRequest addBookRequest) {
         Book book = new Book();
         book.setBookName(addBookRequest.getBookName());
+        book.setAuthorName(addBookRequest.getAuthorName());
         bookFacade.create(book);
         return book;
     }
@@ -40,6 +41,7 @@ public class BookService extends BaseService {
         Book book = new Book();
         book.setId(updateBookRequest.getId());
         book.setBookName(updateBookRequest.getBookName());
+        book.setAuthorName(updateBookRequest.getAuthorName());
         return bookFacade.update(book);
     }
 

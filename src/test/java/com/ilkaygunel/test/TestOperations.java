@@ -6,7 +6,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.ilkaygunel.application.Application;
 import com.ilkaygunel.entities.Book;
-import com.ilkaygunel.exception.ApiError;
 import com.ilkaygunel.request.AddBookRequest;
 import com.ilkaygunel.request.UpdateBookRequest;
 import org.junit.Before;
@@ -20,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
-import org.thymeleaf.spring5.expression.Mvc;
 import org.thymeleaf.util.StringUtils;
 
 import java.nio.charset.Charset;
@@ -28,7 +26,6 @@ import java.nio.charset.Charset;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
