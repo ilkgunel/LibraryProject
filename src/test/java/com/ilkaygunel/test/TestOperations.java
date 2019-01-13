@@ -49,9 +49,6 @@ public class TestOperations {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Autowired
-    private BookFacade bookFacade;
-
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
