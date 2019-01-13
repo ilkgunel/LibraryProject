@@ -23,6 +23,6 @@ public class SaveBookController {
     @RequestMapping({"/saveBook"})
     public String saveBook(final BookDTO bookDTO) {
         bookService.save(bookDTO);
-        return "bookPage";
+        return "redirect:/";
     }
 }
