@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Kitap Güncelleme Sayfası</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     <form action="#" th:action="@{/updateBook}" th:object="${bookForUpdate}" method="post">
@@ -22,6 +23,9 @@
                 <td><input type="text" th:field="*{id}" value="${bookForUpdate.id}" disabled/></td>
                 <td><input type="text" th:field="*{bookName}" value="${bookForUpdate.bookName}"/></td>
                 <td><input type="text" th:field="*{authorName}" value="${bookForUpdate.authorName}"/></td>
+                <td>
+                    <div class="g-recaptcha" data-sitekey="6LcReIkUAAAAALRB7rsuegLfuIfX7CIYkL3CHnms"></div>
+                </td>
                 <td><input type="submit" value="Kaydet"/></td>
             </tr>
             </tbody>
